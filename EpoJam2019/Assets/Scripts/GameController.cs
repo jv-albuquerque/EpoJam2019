@@ -49,7 +49,6 @@ public class GameController : MonoBehaviour
     private void GameOver()
     {
         gameOver = true;
-        score.SaveHighScore();
         pause.GameOver();
     }
 }
