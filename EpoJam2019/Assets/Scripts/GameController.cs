@@ -8,12 +8,18 @@ public class GameController : MonoBehaviour
     private bool paused = false;
     private bool gameOver = false;
 
+    private float horizontalMove;
+    private float verticalMove;
+
+    private PlayerMovement playerMovement = null;
 
     // Start is called before the first frame update
     void Start()
     {
         pause = GetComponent<PauseController>();
-        score = GetComponent<Score>();        
+        score = GetComponent<Score>();
+
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -26,21 +32,17 @@ public class GameController : MonoBehaviour
             pause.Pause();
         }
 
-        //made only to call the gameover
-        if(Input.GetKeyDown(KeyCode.Q) && !gameOver)
-        {
-            GameOver();
-        }
-
         // Where the games go, only can call if isn't paused and isn't gameover
         if (!paused && !gameOver)
         {
-            // do everythings here
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                score.AddScore(0);
-            }
+            horizontalMove = Input.GetAxisRaw("Horizontal");
+            verticalMove = Input.GetAxisRaw("Vertical");
         }
+    }
+
+    void FixedUpdate()
+    {
+        playerMovement.Move(horizontalMove * Time.fixedDeltaTime, verticalMove *Time.fixedDeltaTime);
     }
 
     /// <summary>

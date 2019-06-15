@@ -2,6 +2,10 @@
 
 public class Tile : MonoBehaviour
 {
+    [Header("Objects")]
+    [SerializeField] private Collider2D col = null;
+
+    [Header("Tiles type")]
     //Nature propeties
     [SerializeField] private Sprite[] desert;
 
@@ -27,14 +31,7 @@ public class Tile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         spriteRender = GetComponent<SpriteRenderer>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SetToNature()
@@ -60,6 +57,7 @@ public class Tile : MonoBehaviour
             isNature = false;
             isDesert = false;
             timer = Time.time;
+            col.enabled = true;
 
             if (village.Length > 0)
                 rnd = (int)Random.Range(0, village.Length);
@@ -81,5 +79,16 @@ public class Tile : MonoBehaviour
             else
                 spriteRender.color = Color.yellow;
         }
+    }
+
+    public bool IsCity()
+    {
+        return isCity;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+            SetToNature();
     }
 }

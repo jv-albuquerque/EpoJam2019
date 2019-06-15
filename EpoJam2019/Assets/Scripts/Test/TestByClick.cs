@@ -18,7 +18,7 @@ public class TestByClick : MonoBehaviour
 
             if (hit.collider != null)
             {
-                hit.collider.GetComponent<Tile>().SetToNature();
+                hit.collider.GetComponent<Tile>().SetToCity();
             }
         }
     }
