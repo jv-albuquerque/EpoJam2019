@@ -1,0 +1,31 @@
+Modificadores: Estou no Mapa, Mímico, Palhaço, Justos e Iguais(?), 
+
+Objetivo do jogo: O jogador dar vida ao mundo, enquanto os humanos tentam acabar com essa vida.
+
+Visão geral da história: Uma entidade indígena tenta proteger o meio ambiente, as florestas e os animais que vivem nela, enquanto o homem tenta exterminar esse mundo, mesmo que acabe o matando.
+
+Controles do jogo: WASD - movimentação
+
+Tela de título inicial: Menu usando ícones ao invés de palavras (Play, opções, créditos e quit).
+
+Fluxo de jogo: Inicialmente o jogador está num mundo vazio e a medida que vai caminhando, deixa um rastro de “vida”, uma vegetação. Com o tempo, começam a surgir criaturas humanas que aproveitam dos recursos fornecidos pelo ambiente para sobreviverem. A medida que os humanos evoluem, os recursos vão sendo cada vez mais consumidos, em alguns casos cidades são construídas impedindo o jogador de passar por essas áreas. Vai chegar um momento que o jogador não terá mais como agir, restando apenas o lugar que ele está, e assim finalizar o jogo.
+
+Câmera(s) de jogo: Topdown
+
+Personagens do jogador: Apenas a entidade que tenta dar vida ao mundo.
+
+Habilidades do jogador: Apenas usar os controles para se movimentar. 0 habilidades.
+
+Personagens principais na história: A entidade.
+
+Esboço de progressão do jogo: 
+
+Visão geral do mundo / seleção de níveis / tela de navegação: O mundo é sempre o mesmo, mas o jogador que irá modificá-lo com a sua movimentação. A primeira civilização irá surgir num lugar aleatório do mapa na qual não esteja preenchida com “vida”.
+
+Mecânicas universais de jogo: Movimentação
+
+Níveis de jogo: Inicia-se o jogo de forma calma, o jogador não tem nada com que se preocupar. Depois de dado tempo, a primeira civilização chega, e a partir daí, o jogo vai progredindo lentamente de dificuldade, até atingir um ponto que os humanos evoluem suas máquinas para desmatar mais rápido, e criar cidades em cima desses lugares.
+
+Regras gerais dos inimigos: Eles vão até uma área florestada e desmatam, deixando uma área vazia, onde o jogador pode passar novamente. Após a evolução, os inimigos passam a atingir mais áreas e podendo deixar uma área de cidade ou não.
+
+Músicas e efeitos especiais: Tema: indígena 
