@@ -5,23 +5,26 @@ public class Human : MonoBehaviour
     [SerializeField] private float timeToDestroyForest = 1f;
     [SerializeField] private float speed;
 
-    private Collider2D col = null;
+    private BoxCollider2D col = null;
 
-    private Tile home = null;
-    private Tile destiny = null;
+    private Vector2 home;
+    private Tile destiny;
 
     private bool isInTheForest = false;
     private bool canGoHome = false;
 
     private Cooldown destroyForestCD;
+    private Cooldown waitToGo;
 
     // Start is called before the first frame update
     void Start()
     {
-        destroyForestCD = new Cooldown(timeToDestroyForest);
-        destroyForestCD.Stop();
+        col = GetComponent<BoxCollider2D>();
 
-        col = GetComponent<Collider2D>();
+        destroyForestCD = new Cooldown(timeToDestroyForest);
+        waitToGo = new Cooldown(0.5f);
+        waitToGo.Start();
+        destroyForestCD.Stop();
     }
 
     // Update is called once per frame
@@ -35,10 +38,11 @@ public class Human : MonoBehaviour
         else if(destroyForestCD.IsFinished)
         {
             destroyForestCD.Stop();
+            destiny.SetToDesert();
             canGoHome = true;
             col.enabled = true;
         }
-        else if(!isInTheForest)
+        else if(!isInTheForest && waitToGo.IsFinished)
         {
             GoToForest();
         }
@@ -56,14 +60,14 @@ public class Human : MonoBehaviour
 
     private void BackToHome()
     {
-        if (Vector2.Distance(home.position, transform.position) < 0.1f)
+        if (Vector2.Distance(home, transform.position) < 0.1f)
         {
             Destroy(gameObject);
         }
-        transform.position = Vector2.MoveTowards(transform.position, home.position, Time.deltaTime * speed);
+        transform.position = Vector2.MoveTowards(transform.position, home, Time.deltaTime * speed);
     }
 
-    public Tile SetHome
+    public Vector2 SetHome
     {
         set
         {

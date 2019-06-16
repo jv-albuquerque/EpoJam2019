@@ -15,11 +15,16 @@ public class CreateMap : MonoBehaviour
     private Cooldown citySpawnCD;
     private GameObject[,] tiles;
 
-    private bool[,] visited;
+    private List<Tile> alreadyPassed;
+    private List<Tile> isGrass;
+
 
     // Start is called before the first frame update
     void Awake()
-    {        
+    {
+        alreadyPassed = new List<Tile>();
+        isGrass = new List<Tile>();
+
         citySpawnCD = new Cooldown(delayToCreateACity);
         citySpawnCD.Start();
 
@@ -41,23 +46,28 @@ public class CreateMap : MonoBehaviour
     {
         if(citySpawnCD.IsFinished)
         {
-            int a, b, n;
+            int a, n;
             n = 0;
             do
             {
-                a = Random.Range(0, width);
-                b = Random.Range(0, height);
+                a = Random.Range(0, isGrass.Count);
                 n++;
-            } while (tiles[a, b].GetComponent<Tile>().IsCity() && !SurroundedByForest(a,b) && n < tiles.Length);
+            } while (isGrass[a].GetComponent<Tile>().IsCity &&
+                     !SurroundedByForest((int)isGrass[a].transform.position.x, (int)isGrass[a].transform.position.y) &&
+                     n < isGrass.Count);
 
-            if(SurroundedByForest(a, b))
+            if(SurroundedByForest((int)isGrass[a].transform.position.x, (int)isGrass[a].transform.position.y))
             {
-                tiles[a, b].GetComponent<Tile>().SetToCity();
+                isGrass[a].GetComponent<Tile>().SetToCity();
+
+                RemoveGrass = isGrass[a];
 
                 citySpawnCD.Start();
             }
         }
     }
+
+
 
     private bool SurroundedByForest(int CellX, int CellY)
     {
@@ -96,23 +106,123 @@ public class CreateMap : MonoBehaviour
         return true;
     }
 
-    private void FindGrass(List<Tile> grass, int CellX, int CellY)
+    public bool FindGrass(int CellX, int CellY, out Tile tile)
     {
-        /*
-        if (!(CellX + 1 >= width))
+        List<Tile> grass = new List<Tile>();
+
+
+        if (CellX + 1 < width)
+        {
             if (tiles[CellX + 1, CellY].GetComponent<Tile>().IsNature)
                 grass.Add(tiles[CellX + 1, CellY].GetComponent<Tile>());
-            else if()*/
+
+            if (CellY + 1 < height)
+            {
+                if (tiles[CellX + 1, CellY + 1].GetComponent<Tile>().IsNature)
+                    grass.Add(tiles[CellX + 1, CellY + 1].GetComponent<Tile>());
+            }
+            if (CellY - 1 >= 0)
+            {
+                if (tiles[CellX + 1, CellY - 1].GetComponent<Tile>().IsNature)
+                    grass.Add(tiles[CellX + 1, CellY - 1].GetComponent<Tile>());
+            }
+        }
+
+
+        if (CellY + 1 < height)
+        {
+            if (tiles[CellX, CellY + 1].GetComponent<Tile>().IsNature)
+                grass.Add(tiles[CellX, CellY + 1].GetComponent<Tile>());
+        }
+
+        if (CellY - 1 >= 0)
+        {
+            if (tiles[CellX, CellY - 1].GetComponent<Tile>().IsNature)
+                grass.Add(tiles[CellX, CellY - 1].GetComponent<Tile>());
+        }
+
+        if (CellX - 1 >= 0)
+        {
+            if (tiles[CellX - 1, CellY].GetComponent<Tile>().IsNature)
+                grass.Add(tiles[CellX - 1, CellY].GetComponent<Tile>());
+
+            if (CellY + 1 < height)
+            {
+                if (tiles[CellX - 1, CellY + 1].GetComponent<Tile>().IsNature)
+                    grass.Add(tiles[CellX - 1, CellY + 1].GetComponent<Tile>());
+            }
+            if (CellY - 1 >= 0)
+            {
+                if (tiles[CellX - 1, CellY - 1].GetComponent<Tile>().IsNature)
+                    grass.Add(tiles[CellX - 1, CellY - 1].GetComponent<Tile>());
+            }
+        }
+
+        if(grass.Count > 0)
+        {
+            tile = grass[Random.Range(0, grass.Count)];
+            return true;
+        }
+
+        tile = null;
+        return false;
     }
 
-    private void CleanVisited()
+    public bool SetToDesert(int CellX, int CellY, out Tile tile)
     {
-        for (int y = 0; y < height; y++)
+        List<Tile> deserts = new List<Tile>();
+
+        //look up
+        if (CellX + 1 < width)
         {
-            for (int x = 0; x < width; x++)
-            {
-                visited[x, y] = false;
-            }
+            if (tiles[CellX + 1, CellY].GetComponent<Tile>().IsDesert)
+                deserts.Add(tiles[CellX + 1, CellY].GetComponent<Tile>());
+        }
+
+        //look right
+        if (CellY + 1 < height)
+        {
+            if (tiles[CellX, CellY + 1].GetComponent<Tile>().IsDesert)
+                deserts.Add(tiles[CellX, CellY + 1].GetComponent<Tile>());
+        }
+
+        //look down
+        if (CellX - 1 >= 0)
+        {
+            if (tiles[CellX - 1, CellY].GetComponent<Tile>().IsDesert)
+                deserts.Add(tiles[CellX - 1, CellY].GetComponent<Tile>());
+        }
+
+        //look left
+        if (CellY - 1 >= 0)
+        {
+            if (tiles[CellX, CellY - 1].GetComponent<Tile>().IsDesert)
+                deserts.Add(tiles[CellX, CellY - 1].GetComponent<Tile>());
+        }
+
+        if(deserts.Count > 0)
+        {
+            tile = deserts[(int)Random.Range(0, deserts.Count)];
+            return true;
+        }
+
+        tile = null;
+        return false;
+    }
+
+    public Tile AddGrass
+    {
+        set
+        {
+            isGrass.Add(value);
+        }
+    }
+
+    public Tile RemoveGrass
+    {
+        set
+        {
+            isGrass.Remove(value);
         }
     }
 }

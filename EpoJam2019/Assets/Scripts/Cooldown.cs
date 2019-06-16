@@ -88,17 +88,6 @@ public class Cooldown
     /// <summary>
     /// Return how many time is left to finish the cooldown
     /// </summary>
-    //public float TimeLeft()
-    //{
-    //    if (paused)
-    //        return pauseTimeLeft;
-
-    //    if (this.IsFinished())
-    //        return 0;
-
-    //    return (timer - Time.time);
-    //}
-
     public float TimeLeft {
         get {
             if (paused)

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MenuController
   - Tile
+  - Human
   layers:
   - Default
   - TransparentFX
