@@ -7,16 +7,12 @@ public class Tile : MonoBehaviour
 
     [Header("Tiles type")]
     //Nature propeties
-    [SerializeField] private Sprite[] desert;
+    [SerializeField] private Material[] desert;
 
-    [SerializeField] private Sprite[] grass;
-    [SerializeField] private Sprite[] woods;
-    [SerializeField] private Sprite[] forest;
+    [SerializeField] private Material[] grass;
 
     //City propeties
-    [SerializeField] private Sprite[] village;
-    [SerializeField] private Sprite[] city;
-    [SerializeField] private Sprite[] metropoly;
+    [SerializeField] private Material[] village;
 
     private SpriteRenderer spriteRender = null;
 
@@ -32,6 +28,14 @@ public class Tile : MonoBehaviour
     void Start()
     {
         spriteRender = GetComponent<SpriteRenderer>();
+
+        if (desert.Length > 0)
+        {
+            rnd = (int)Random.Range(0, desert.Length);
+            spriteRender.material = desert[rnd];
+        }
+        else
+            spriteRender.color = Color.yellow;
     }
 
     public void SetToNature()
@@ -43,7 +47,10 @@ public class Tile : MonoBehaviour
             timer = Time.time;
 
             if (grass.Length > 0)
+            {
                 rnd = (int)Random.Range(0, grass.Length);
+                spriteRender.material = grass[rnd];
+            }
             else
                 spriteRender.color = Color.green;
         }
@@ -60,7 +67,10 @@ public class Tile : MonoBehaviour
             col.enabled = true;
 
             if (village.Length > 0)
+            {
                 rnd = (int)Random.Range(0, village.Length);
+                spriteRender.material = village[rnd];
+            }
             else
                 spriteRender.color = Color.grey;
         }
@@ -75,7 +85,10 @@ public class Tile : MonoBehaviour
             isNature = false;
 
             if (desert.Length > 0)
+            {
                 rnd = (int)Random.Range(0, desert.Length);
+                spriteRender.material = desert[rnd];
+            }
             else
                 spriteRender.color = Color.yellow;
         }
@@ -85,6 +98,15 @@ public class Tile : MonoBehaviour
     {
         return isCity;
     }
+
+    public bool IsNature
+    {
+        get
+        {
+            return isNature;
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

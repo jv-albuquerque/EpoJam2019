@@ -3135,6 +3135,7 @@ MonoBehaviour:
   tile: {fileID: 6253897848461988039, guid: 7e4152b5798335241bf4943f6cc0aec9, type: 3}
   width: 20
   height: 20
+  delayToCreateACity: 1
 --- !u!1 &1327905384
 GameObject:
   m_ObjectHideFlags: 0
