@@ -152,4 +152,13 @@ public class Cooldown
     {
         this.Start();
     }
+
+    /// <summary>
+    /// Cooldown stop to work
+    /// </summary>
+    public void Stop()
+    {
+        paused = true;
+    }
+
 }

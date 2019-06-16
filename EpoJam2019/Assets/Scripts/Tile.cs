@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Tile : MonoBehaviour
 {
@@ -14,6 +15,14 @@ public class Tile : MonoBehaviour
     //City propeties
     [SerializeField] private Material[] village;
 
+    [Header("Human spawn")]
+    [SerializeField] private GameObject human = null;
+    [SerializeField] private float timeToSpawnHuman = 1f;
+
+    private Cooldown spawnHumanCD;
+
+    private List<Tile> grassCanGo;
+
     private SpriteRenderer spriteRender = null;
 
     private bool isCity = false;
@@ -27,7 +36,12 @@ public class Tile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spawnHumanCD = new Cooldown(timeToSpawnHuman);
+        spawnHumanCD.Start();
+
         spriteRender = GetComponent<SpriteRenderer>();
+
+        transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y + 180, transform.rotation.z));
 
         if (desert.Length > 0)
         {
@@ -36,6 +50,16 @@ public class Tile : MonoBehaviour
         }
         else
             spriteRender.color = Color.yellow;
+    }
+
+    private void Update()
+    {
+        if(isCity && spawnHumanCD.IsFinished)
+        {
+            GameObject newHuman = Instantiate(human, transform.position, Quaternion.identity);
+            human.GetComponent<Human>().SetHome = this;
+            //human.GetComponent<Human>().SetDestiny = ;
+        }
     }
 
     public void SetToNature()
@@ -113,4 +137,14 @@ public class Tile : MonoBehaviour
         if (collision.CompareTag("Player"))
             SetToNature();
     }
+
+    public Vector2 position
+    {
+        get
+        {
+            return transform.position;
+        }
+    }
+
+
 }

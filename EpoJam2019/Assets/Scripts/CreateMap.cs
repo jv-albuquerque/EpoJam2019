@@ -15,6 +15,8 @@ public class CreateMap : MonoBehaviour
     private Cooldown citySpawnCD;
     private GameObject[,] tiles;
 
+    private bool[,] visited;
+
     // Start is called before the first frame update
     void Awake()
     {        
@@ -75,11 +77,11 @@ public class CreateMap : MonoBehaviour
             if (!tiles[CellX, CellY - 1].GetComponent<Tile>().IsNature)
                 return false;
 
-        if (CellX + 1 >= width && !(CellY + 1 >= height))
+        if (!(CellX + 1 >= width) && !(CellY + 1 >= height))
             if (!tiles[CellX + 1, CellY + 1].GetComponent<Tile>().IsNature)
                 return false;
 
-        if (CellX + 1 >= width && !(CellY == 0))
+        if (!(CellX + 1 >= width) && !(CellY == 0))
             if (!tiles[CellX + 1, CellY - 1].GetComponent<Tile>().IsNature)
                 return false;
 
@@ -92,5 +94,25 @@ public class CreateMap : MonoBehaviour
                 return false;
 
         return true;
+    }
+
+    private void FindGrass(List<Tile> grass, int CellX, int CellY)
+    {
+        /*
+        if (!(CellX + 1 >= width))
+            if (tiles[CellX + 1, CellY].GetComponent<Tile>().IsNature)
+                grass.Add(tiles[CellX + 1, CellY].GetComponent<Tile>());
+            else if()*/
+    }
+
+    private void CleanVisited()
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                visited[x, y] = false;
+            }
+        }
     }
 }

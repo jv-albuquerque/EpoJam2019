@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5539835988349162285}
   - component: {fileID: 6253897848461988037}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Tile
   m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,10 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 5539835988349162285}
-  desert: []
+  desert:
+  - {fileID: 2100000, guid: 552701d1b861e4845b8facde6844d596, type: 2}
   grass: []
-  woods: []
-  forest: []
   village: []
-  city: []
-  metropoly: []
+  human: {fileID: 8131402806658090297, guid: 0415528f72929d04b80d0f65856b7999, type: 3}
+  timeToSpawnHuman: 1
