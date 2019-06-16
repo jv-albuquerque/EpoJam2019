@@ -13,9 +13,18 @@ public class GameController : MonoBehaviour
 
     private PlayerMovement playerMovement = null;
 
+    private CreateMap createMap;
+
+    private Cooldown canLose;
+
     // Start is called before the first frame update
     void Start()
     {
+        canLose = new Cooldown(5f);
+        canLose.Start();
+
+        createMap = GetComponent<CreateMap>();
+
         pause = GetComponent<PauseController>();
         score = GetComponent<Score>();
 
@@ -25,6 +34,10 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (createMap.NumberOfGrass == 0 && canLose.IsFinished)
+            GameOver();
+
         // Pause when the player click "Cancel" (by default, Esc)
         if (Input.GetButtonDown("Cancel") && !gameOver)
         {
