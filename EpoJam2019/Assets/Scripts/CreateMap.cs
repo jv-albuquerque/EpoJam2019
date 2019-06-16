@@ -225,4 +225,12 @@ public class CreateMap : MonoBehaviour
             isGrass.Remove(value);
         }
     }
+
+    public int NumberOfGrass
+    {
+        get
+        {
+            return isGrass.Count;
+        }
+    }
 }
